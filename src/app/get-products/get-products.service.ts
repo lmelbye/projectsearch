@@ -13,6 +13,8 @@ import { Product, SearchProductResponse } from './products';
 export class GetProductsService {
   productUrl = 'assets/products.json'
 
+  // C:\Users\Bruger\Documents\GitHub\projectsearch\src\assets\products.json
+
   constructor(private http : HttpClient) { }
 
   testInjectable() {
@@ -26,13 +28,18 @@ export class GetProductsService {
         retry(3),
         catchError(this.handleError)
       )
-    console.log(a.subscribe(), "ASYNC #######################################")
+    // console.log(a.subscribe(), "ASYNC #######################################")
     /* return this.http.get<Product>(this.productUrl)
       .pipe(
         retry(3),
         catchError(this.handleError)
       ) */
-    return a.subscribe();
+    // console.log(this.productUrl)
+    return a;
+  }
+
+  getProductList() {
+    return this.http.get<SearchProductResponse>(this.productUrl)
   }
 
   getObservableJson(): Observable<HttpResponse<Product>> {

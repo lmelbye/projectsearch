@@ -1,6 +1,41 @@
-* {
+/* * {
     border: 1px solid red;
+} */
+
+.productBox {
+    box-sizing: border-box;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
 }
-h1 {
-    color: rebeccapurple;
+
+.productBox > summary {
+    /* increase summary hit box size */
+    padding: 0.7ch;
+    margin: -0.7ch;
+}
+
+.productContent {
+    display: grid;
+    grid-template-areas: "a b";
+}
+
+.productContent > div {
+    grid-area: "a";
+    display: inline-block;
+    width: 50%;
+    margin-inline-start: 2ch;
+    color: rgba(68, 68, 68, 0.7);
+}
+.productContent > div > p {
+    margin-block: 0.7ch;
+}
+
+.productImg {
+    grid-area: "b";
+    height: 19ch;
+    padding: 17px;
+
+    border: 1px solid rgba(27, 27, 27, 0.918);
 }
