@@ -1,6 +1,6 @@
 # Product search
 
-Estimated time: 8-12 hours (without Angular experience) 
+Fron now, you can code this proejct in any JS/TS framework you prefer, but make sure to test your code as descripted in 4.   
 
 The goal of the project is to create a product list viewer and gain some experience with angular. 
 Mainly only components, the template engine, HTTP Client and reactiveX.
@@ -28,7 +28,7 @@ The project must be implemented using https://angular.io/.
 
 **Requirements**
 
-1. The products must be listed in a user-friendly and elegant way. You can read a json file with `HttpClient get`
+1. The products must be listed. You can read a json file with `HttpClient get`
 1. Pagination. Show, say 10, products per page. Hint: use `slice` pipe
 1. Full text search. The user must be able to search for the products using full text. Input should be provided via a text input. Once a user starts typing the list of products should be filtered using full text search so he can easily find what he needs.
    1. This functionality must be done using https://www.learnrxjs.io/ which is included in angular. 
