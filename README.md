@@ -1,6 +1,6 @@
 # Product search
 
-Fron now, you can code this proejct in any JS/TS framework you prefer, but make sure to test your code as descripted in 4.   
+From now, you can code this project in any JS/TS framework you prefer, but make sure to test your code as descripted in 4.   
 
 The goal of the project is to create a product list viewer and gain some experience with angular. 
 Mainly only components, the template engine, HTTP Client and reactiveX.
