@@ -17,21 +17,19 @@ export class AppComponent implements OnInit {
 
   title = 'projectSearch';
 
-  product : Product | undefined;
-  productList : SearchProductResponse | undefined;
-  testArr : Product[] | undefined;
-  // searchArr : Product[] | undefined;
-
-  currentSearch = ""
-
   constructor( private productGetter: GetProductsService) { }
+  
 
-  searchControl = new FormControl();
+  // The hashmap data structure allows for very fast searches because each key is hashed to a value between 0 and n-1 (n being the map's length)
+  // The hash value maps to an address in memory and we do not have to look through the entire structure to find our key, unlike looking through a list
+  productList : SearchProductResponse | undefined;
   searchResult : Product[] = [];
+  searchControl = new FormControl();
 
+  // productList is populated on init because I did not have time to figure out how to load it only on first search.
+    // The simplest implementation I can think of would be to set a productListLoaded = true flag in the valueChanges pipe.
+    // Then if(!productListLoaded){ getProductList() } in the pipe should create the correct behaviour.
   ngOnInit(): void {
-    // console.log(this.testNonObsJson())
-    // this.testNonObsJson();
     this.getProductList()
 
     this.searchControl.valueChanges.pipe(
@@ -41,113 +39,26 @@ export class AppComponent implements OnInit {
    ).subscribe(data => {
       this.searchResult.push(data);
     });
-  //  ).subscribe(productList => this.product_list = productList);
   }
 
   getProductList() {
     this.productGetter.getProductList().subscribe(data => {
       this.productList = data;
-      setTimeout(() => console.log(this.productList, "TEST ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤"), 2000);
-      this.testArr = this.productList.content;
     })
   }
 
+  // working search method - not free text
   getProducts(searchTerm : string) {
     let toFilter : Product[] = this.productList!.content!;
-
+    
     return toFilter.filter(item => {
-      return item.title.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+      return item.title.toLocaleLowerCase().includes(searchTerm);
     })
   }
-
-  /* getProducts(input : string) {
-    let filteredProducts = ["hello", "world", "xkcd", "qed", "woorld"]
-    
-    return filteredProducts.filter(item => item.includes(input.toLocaleLowerCase()))
-    // return filteredProducts.filter(item => item.indexOf(input.toLocaleLowerCase()) > -1)
-  } */
-
-  // on search: filter product list
-    // first by name, possibly by productno
-  /* searchTerm : string = "";
-  createSearchTerm(key : KeyboardEvent) {
-    if ((key.keyCode <= 90 && key.keyCode >= 48) || key.key == " " ) // quick fix to filter acceptable keys - accepts numbers, letters, and space
-      this.searchTerm = this.searchTerm + key.key;
-    if (key.key == "Backspace")
-      this.searchTerm = this.searchTerm.slice(0,-1);  // again quick fix - doesn't take delete all into account
-    // console.log(this.searchTerm)
-    return this.searchTerm;
-  } */
   
-  getValue(event: Event): string {
-    return (event.target as HTMLInputElement).value;
-  }
-
-  
-
-  filterProducts(input : string) {
-    let filteredProducts = from(["hello", "world", "xkcd", "qed", "woorld"])
-    let newProducts = filteredProducts.pipe( 
-      filter(item => item.toLowerCase().includes(input.toLocaleLowerCase())), //use switchMap
-      debounceTime(500),
-      distinctUntilChanged(),
-
-      );
-    return newProducts;
-  }
-
-  /* testTestArr : string[] = [];
-  handleInput(event : Event) {
-    this.currentSearch = this.getValue(event);
-    from(this.getProducts(this.currentSearch)).pipe(
-      debounceTime(150),
-      distinctUntilChanged(),
-      switchMap(this.getProducts),
-      tap(item => this.testTestArr.push(item))
-    )
-    .subscribe();
-    console.log(this.testTestArr)
-    // fromEvent(this.input, event).pipe()
-    // this.filterProducts(this.currentSearch).subscribe(val => console.log(val))
-  } */
-
-
-  hello(input : KeyboardEvent) {
-    // console.log(key)
-    this.filterProducts(this.currentSearch).subscribe(val => console.log(val))
-    // this.filterProducts(this.createSearchTerm(input)).subscribe(val => console.log(val))
-  }
-
-  /* fakeContinentsRequest(keys : any) { of(this.getContinents(keys))
-  .pipe(
-    tap(_ => console.log(`API CALL at ${new Date()}`))
-  )}; */
-
-  /* fromEvent(document.getElementById('typeAhead'), 'keyup')
-  .pipe(
-    debounceTime(200),
-    map((e: any) => e.target.value),
-    distinctUntilChanged(),
-    switchMap(fakeContinentsRequest),
-    tap(c => (document.getElementById('output').innerText = c.join('\n')))
-  )
-  .subscribe(); */
-
-
-  /* search bar solution from learnrxjs.com -- most likely plug and play? */
-  // observable of values from a text box, pipe chains operators together
-    /* inputValue
-    .pipe(
-      // wait for a 200ms pause
-      debounceTime(200),
-      // if the value is the same, ignore
-      distinctUntilChanged(),
-      // if an updated value comes through while request is still active cancel previous request and 'switch' to new observable
-      switchMap(searchTerm => typeaheadApi.search(searchTerm))
-    )
-    // create a subscription
-    .subscribe(results => {
-      // update the dom
-    }); */
+  // I attempted free text search but could not get it working in time. My thoughts on getting it working:
+    // I would split search term and product.title into arrays.
+    // Then I would create a double loop to compare each index and return the product for matching indexes
+    // Ideally, I would then sort the resulting array by number of matches, to boost relevancy
 
 }

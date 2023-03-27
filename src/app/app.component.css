@@ -2,18 +2,22 @@
     border: 1px solid red;
 } */
 
+details {
+    --defaultPadding: 5px;
+}
+
 .productBox {
     box-sizing: border-box;
     border: 1px solid gray;
     border-radius: 5px;
     margin-bottom: 5px;
-    padding: 5px;
+    padding: var(--defaultPadding);
 }
 
 .productBox > summary {
-    /* increase summary hit box size */
-    padding: 0.7ch;
-    margin: -0.7ch;
+    /* increase summary hit box size to account for parent's padding*/
+    padding: var(--defaultPadding);
+    margin: calc(-1 * var(--defaultPadding));
 }
 
 .productContent {
